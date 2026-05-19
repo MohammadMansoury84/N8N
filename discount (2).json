@@ -1,0 +1,496 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "سفارش محصول",
+        "formDescription": "مشخصات خودو تعداد سفارش را وارد نمایید",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "نام خود را وارد کنید",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "LastName",
+              "placeholder": "نام خانوادگی خود را وارد نمایید",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "PhoneNum",
+              "placeholder": "شماره تلفن خود را وارد کنید",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "ProductType",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "بهداشتی"
+                  },
+                  {
+                    "option": "مواد غذایی"
+                  },
+                  {
+                    "option": "لباس"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -80,
+        80
+      ],
+      "id": "d1626a3e-8310-414b-88e3-17297e0e6139",
+      "name": "On form submission",
+      "webhookId": "e0dec4ec-cda8-42a7-a83b-f1e655c080cb"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "PhoneNum",
+              "placeholder": "شماره تلفن خود را وارد کنید"
+            }
+          ]
+        },
+        "options": {
+          "formTitle": "شماره تلفن شما اشتباه بود.مجددا وارد کنید"
+        }
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.3,
+      "position": [
+        256,
+        224
+      ],
+      "id": "127d247c-6a87-4c7e-a1ce-a1182dc9b49e",
+      "name": "Form",
+      "webhookId": "e53012b5-e5c7-4324-a29d-d11921da20c1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a159903f-fe2e-43e2-8ae7-b3cb4f369146",
+              "leftValue": "={{ $json.PhoneNum }}",
+              "rightValue": "09",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            },
+            {
+              "id": "87fb27bf-1325-454d-ad8f-4caa2b00da2b",
+              "leftValue": "={{ $json.PhoneNum.length() }}",
+              "rightValue": "11",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        80
+      ],
+      "id": "559d115a-efb9-4b96-b05f-0884e7cb2152",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('On form submission').item.json.ProductType }}",
+                    "rightValue": "بهداشتی",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "c5dc6203-51d3-4cbc-b61b-62c0e877c430"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "hygiene"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "40ae7d3b-5be3-4de0-9bbe-7b27ff30c9da",
+                    "leftValue": "={{ $('On form submission').item.json.ProductType }}",
+                    "rightValue": "مواد غذایی",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "food"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "45f1b615-91be-4a04-8547-aba0463e734b",
+                    "leftValue": "={{ $('On form submission').item.json.ProductType }}",
+                    "rightValue": "لباس",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "clothes"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        432,
+        48
+      ],
+      "id": "6fd5c685-62cd-41b7-b701-59c977cb67cf",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d8bc4b5a-a626-4c5f-b348-ddaa75e3d498",
+              "name": "discount",
+              "value": 10,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        -128
+      ],
+      "id": "9b330773-fc80-40fa-b574-b7b5f10b1d18",
+      "name": "Hygiene discount"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d8bc4b5a-a626-4c5f-b348-ddaa75e3d498",
+              "name": "discount",
+              "value": 15,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        48
+      ],
+      "id": "d2dc2b38-797b-49cd-b91d-b00778b941ee",
+      "name": "Food discount"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d8bc4b5a-a626-4c5f-b348-ddaa75e3d498",
+              "name": "discount",
+              "value": 20,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        208
+      ],
+      "id": "8ac8f653-9469-445c-9f35-c1db02618ee9",
+      "name": "Clothes discount"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "675ee16d-eccd-47ea-b362-2dc86372d7fa",
+              "name": "نام",
+              "value": "={{ $('On form submission').item.json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "2c9c014c-81bd-4e04-b9fc-589075d0a465",
+              "name": "نام خانوادگی",
+              "value": "={{ $('On form submission').item.json.LastName }}",
+              "type": "string"
+            },
+            {
+              "id": "51e95c99-7c23-4901-bd18-e1d9e2c4831c",
+              "name": "شماره تماس",
+              "value": "={{ $('On form submission').item.json.PhoneNum }}",
+              "type": "string"
+            },
+            {
+              "id": "383aead4-a0fd-405f-81bb-107f553d3b9e",
+              "name": "محصول",
+              "value": "={{ $('On form submission').item.json.ProductType }}",
+              "type": "string"
+            },
+            {
+              "id": "d8736841-d97d-47a8-9f6a-11aee586866e",
+              "name": "تخفیف",
+              "value": "={{ $json.discount }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        48
+      ],
+      "id": "14fb0f44-4052-4ecc-aa11-c469cd3c77f7",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        48
+      ],
+      "id": "f4a547d5-eb5a-4466-a254-4adb1a78e179",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "returnBinary",
+        "completionTitle": "از وقت شما سپاس گذاریم!!!",
+        "completionMessage": "رسید اطلاعات شما دانلود میشود",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.3,
+      "position": [
+        1504,
+        48
+      ],
+      "id": "8983ea89-246d-4cde-86b5-30bde0564630",
+      "name": "Form1",
+      "webhookId": "0bcf71e0-1b2b-4f68-972f-4196fbd4d17b"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Hygiene discount",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Food discount",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Clothes discount",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hygiene discount": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Food discount": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clothes discount": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Form1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "805e5444-ace2-4dec-9ec4-5edf9a48a393",
+  "meta": {
+    "instanceId": "d722ddfa4b234e8698c497075d999ae14b161a84072aafcb174bc659b74272e9"
+  },
+  "id": "VSHWhkRPCZEkiWUF",
+  "tags": []
+}

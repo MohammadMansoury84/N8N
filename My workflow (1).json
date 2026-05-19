@@ -1,0 +1,586 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "ثبت مشاوره",
+        "formDescription": "نوع مشاوره خود را ثبت نمایید",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "نام",
+              "placeholder": "نام خود را وارد کنید",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "نام خانوادگی",
+              "placeholder": "نام خانوادگی خود را وارد کنید",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "تاریخ مشاوره",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "ساعت",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "12"
+                  },
+                  {
+                    "option": "14"
+                  },
+                  {
+                    "option": "16"
+                  },
+                  {
+                    "option": "20"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "ایمیل",
+              "fieldType": "email",
+              "placeholder": "ایمیل خود را وارد کنید",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "نوع مشاوره",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "فردی"
+                  },
+                  {
+                    "option": "تحصیلی"
+                  },
+                  {
+                    "option": "شغلی"
+                  },
+                  {
+                    "option": "ازدواج"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -976,
+        -992
+      ],
+      "id": "e44c60a1-b014-4000-b6c5-99ff0c30d6f0",
+      "name": "On form submission",
+      "webhookId": "26941738-0463-4c3c-b6e3-7d86980efb02"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1BcQUrzUECx_jn4gr4PGGL81HHw4LBVZMg8MbsjN4fWo",
+          "mode": "list",
+          "cachedResultName": "mamad",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BcQUrzUECx_jn4gr4PGGL81HHw4LBVZMg8MbsjN4fWo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BcQUrzUECx_jn4gr4PGGL81HHw4LBVZMg8MbsjN4fWo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $('On form submission').item.json['نام'] }}",
+            "lastname": "={{ $('On form submission').item.json['نام خانوادگی'] }}",
+            "type": "={{ $('On form submission').item.json['نوع مشاوره'] }}",
+            "time": "={{ $('On form submission').item.json['ساعت'] }}",
+            "date": "={{ $('On form submission').item.json['ساعت'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "lastname",
+              "displayName": "lastname",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time",
+              "displayName": "time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        576,
+        -1088
+      ],
+      "id": "d14369f3-8c96-45ff-ac78-677d21b4146f",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "MDydxZ5d5l9MKhi8",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23044863-92e7-4f4b-9481-9d248a9081a2",
+              "name": "Name",
+              "value": "={{ $json['نام'] }}",
+              "type": "string"
+            },
+            {
+              "id": "20d048d8-b020-4f93-b1f2-588e5d166b65",
+              "name": "LastName",
+              "value": "={{ $json['نام خانوادگی'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9bccd7fc-b4f5-46d0-ae6f-40829b5124ba",
+              "name": "Email",
+              "value": "={{ $json['ایمیل'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e1b6f87b-fc42-432e-a956-356378fba772",
+              "name": "Date",
+              "value": "={{ $json['تاریخ مشاوره'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ac9d6592-7eaf-451f-ac10-454777f47637",
+              "name": "Type",
+              "value": "={{ $json['نوع مشاوره'] }}",
+              "type": "string"
+            },
+            {
+              "id": "bea2ddc5-bfbe-4fe1-8254-d78013f1a64e",
+              "name": "Time",
+              "value": "={{ $json['ساعت'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -768,
+        -992
+      ],
+      "id": "510b9099-b00b-4d2d-985f-3fc7195a274f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Edit Fields').item.json.Email }}",
+        "subject": "مشاوره شما ثبت شد",
+        "emailType": "text",
+        "message": "={{ $('Edit Fields1').item.json.name }}{{ $('Edit Fields1').item.json.lastname }} عزیز\nمشاوره شما ثبت شد\nلطفا در تاریخ {{ $('Edit Fields1').item.json.date }} و در ساعت{{ $('Edit Fields1').item.json['start time'] }} در دفتر مشاوره حضور داشته باشید",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        800,
+        -1088
+      ],
+      "id": "c181c09c-7721-4c98-af73-55ff0dd27f86",
+      "name": "Send a message",
+      "webhookId": "3f59f2fe-9119-4172-85b5-1dc0295d00e5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "P2LTo3x9rcTbyZa2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a82fba25-009b-455c-82bf-0f81c8e8fad4",
+              "leftValue": "={{ $json.available }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        -992
+      ],
+      "id": "d8968c63-8cee-47c0-a247-b18f22df6884",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "تاریخ مشاوره",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "تایم",
+              "fieldType": "radio",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "12"
+                  },
+                  {
+                    "option": "14"
+                  },
+                  {
+                    "option": "16"
+                  },
+                  {
+                    "option": "20"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.3,
+      "position": [
+        592,
+        -912
+      ],
+      "id": "1a621e7a-eb57-42b5-b5ca-c7ff9a3eb6ca",
+      "name": "Form1",
+      "webhookId": "dd9cff84-32eb-4083-b96c-2b98ae6b9b27"
+    },
+    {
+      "parameters": {
+        "jsCode": "const date = $json.Date || $json['تاریخ مشاوره'];\nconst time = $json.Time || $json['تایم'];\n\nconst localStart = new Date(`${date}T${time}:00`);\nconst start = new Date(localStart.getTime());\nconst end = new Date(start.getTime() + 90 * 60 * 1000);\n\nreturn [{\n  json: {\n    startTime: start.toISOString(),\n    endTime: end.toISOString()\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        -992
+      ],
+      "id": "85168b0c-752a-4d56-b35b-1c6f634eac88",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "resource": "calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "mansoury762@gmail.com",
+          "mode": "list",
+          "cachedResultName": "mansoury762@gmail.com"
+        },
+        "timeMin": "={{ $json['start time'] }}",
+        "timeMax": "={{ $json.endTime }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -96,
+        -992
+      ],
+      "id": "b22043f7-d168-4f89-a3b8-5794e8962373",
+      "name": "Get availability in a calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "qlGaCbMDhFHCcSIm",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "mansoury762@gmail.com",
+          "mode": "list",
+          "cachedResultName": "mansoury762@gmail.com"
+        },
+        "start": "={{ $('Code in JavaScript').item.json.startTime }}",
+        "end": "={{ $('Code in JavaScript').item.json.endTime }}",
+        "additionalFields": {
+          "attendees": [],
+          "color": "6",
+          "description": "تایم مشاوره"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1008,
+        -1088
+      ],
+      "id": "a64fcc3c-d003-4308-9e4f-95e41f1480cb",
+      "name": "Create an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "qlGaCbMDhFHCcSIm",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9530ce1-2e6d-48fd-9649-5e32e0b65da0",
+              "name": "name",
+              "value": "={{ $('On form submission').item.json['نام'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b74c24fd-985c-4fbd-9b9a-a94a420b983e",
+              "name": "lastname",
+              "value": "={{ $('On form submission').item.json['نام خانوادگی'] }}",
+              "type": "string"
+            },
+            {
+              "id": "766a90f9-0a7a-4e39-b40b-e307472f605f",
+              "name": "date",
+              "value": "={{ $('On form submission').item.json['تاریخ مشاوره'] }}",
+              "type": "string"
+            },
+            {
+              "id": "910e768d-68e6-43c0-861f-03d44783c977",
+              "name": "start time",
+              "value": "={{ $json.startTime }}",
+              "type": "string"
+            },
+            {
+              "id": "5d7c25ef-99d8-49e2-a350-4ee3d9812411",
+              "name": "email",
+              "value": "={{ $('On form submission').item.json['ایمیل'] }}",
+              "type": "string"
+            },
+            {
+              "id": "79fe26b8-80a0-4a9e-8438-b130b6ec91e8",
+              "name": "type",
+              "value": "={{ $('On form submission').item.json['نوع مشاوره'] }}",
+              "type": "string"
+            },
+            {
+              "id": "19d4b2f7-3103-43a7-a0fe-f076f7c9c975",
+              "name": "endTime",
+              "value": "={{ $json.endTime }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -352,
+        -992
+      ],
+      "id": "536f9a29-dc13-49cb-811a-86b6dc259d4a",
+      "name": "Edit Fields1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Create an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Form1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get availability in a calendar": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Get availability in a calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "93b23917-66e9-445f-a90f-5793857c3b7e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "952816202c9fd02b28d876a2a33999ef5618488bed2e1af6258bb25e26442f67"
+  },
+  "id": "dYg0fAP2GRWavOb3",
+  "tags": []
+}

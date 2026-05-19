@@ -1,0 +1,1663 @@
+{
+  "name": "Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -704,
+        -64
+      ],
+      "id": "ddfcea39-9588-4cf0-b309-24cbc56076fc",
+      "name": "Telegram Trigger",
+      "webhookId": "b164d4db-1b8b-4581-be29-17c0feb671f6",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "قیمت رمزارز ها",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9802df8a-ed41-459b-8671-9d2ede0da87a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Crypto"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5f1a712c-02d9-4abd-9514-47bd6a784eec",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "قیمت ارز ها",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Currency"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d8df120e-cdd7-43c6-85cf-5f02d6a6b1ff",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "قیمت طلا",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Gold"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bae03f4e-60d8-451a-a244-27f1204b77b8",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Start"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6aebc477-ddde-4b29-8bea-7977dc552e52",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/stop",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "stop"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        160,
+        -112
+      ],
+      "id": "4f47388a-782c-4163-a4d4-6bc00b48bbe0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "📊 خوش آمدید به ربات قیمت لحظه‌ای!\n\nبا استفاده از این ربات می‌توانید به‌صورت لحظه‌ای با زدن هر کدام از دکمه‌های زیر از قیمت‌های مختلف باخبر شوید 👇\n\n💰 قیمت رمزارزها\nبرای مشاهده قیمت فعلی رمزارزهایی مانند تتر (USDT) و بیت‌کوین (BTC) روی دکمه «قیمت رمزارزها» بزنید.\n\n💵 قیمت ارزها\nبرای دیدن قیمت لحظه‌ای دلار و یورو، دکمه «قیمت ارزها» را انتخاب کنید.\n\n🥇 قیمت طلا\nبرای اطلاع از قیمت لحظه‌ای طلای ۱۸ عیار، روی «قیمت طلا» کلیک کنید.\n\n⏱️ ارسال خودکار قیمت‌ها (دستور /set)\nاگر می‌خواهید قیمت‌ها به‌صورت خودکار و در بازه‌های زمانی مشخص برای شما ارسال شوند، می‌توانید از دستور زیر استفاده کنید:\n\n/set <زمان به ثانیه> <نوع>\n\n\n🔹 مثال:\n\n/set 60 ارز\n/set 120 رمزارز\n/set 300 طلا\n\n\nدر این حالت، ربات قیمت انتخاب‌شده را هر X ثانیه یک‌بار به‌صورت خودکار برای شما ارسال می‌کند ✅\n\n⛔ غیرفعال‌کردن ارسال خودکار\nبرای متوقف‌کردن ارسال خودکار قیمت‌ها، دستور زیر را وارد کنید:\n\n/stop\n\n\nپس از این دستور، ارسال خودکار برای شما غیرفعال خواهد شد 🔕\n\n🧭 راهنمای استفاده:\n1️⃣ ابتدا یکی از گزینه‌های منو را انتخاب کنید.\n2️⃣ ربات به‌صورت خودکار اطلاعات به‌روز را از منابع معتبر دریافت کرده و برای شما ارسال می‌کند.\n3️⃣ برای دریافت خودکار قیمت‌ها از دستور /set استفاده کنید.\n4️⃣ برای توقف ارسال خودکار، دستور /stop را ارسال نمایید.\n5️⃣ در صورت وارد کردن دستور نامعتبر، پیام «درخواست شما نامعتبر است» دریافت خواهید کرد.",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "قیمت رمزارز ها",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "قیمت ارز ها",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "قیمت طلا",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        608,
+        -32
+      ],
+      "id": "ca9c6eff-7f33-4d7d-b695-d4a7df8a5644",
+      "name": "Send a text message6",
+      "webhookId": "0f7bfdee-1bae-4f12-bff9-f57de0e3a67e",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "درخواست شما نا معتبر است",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        304
+      ],
+      "id": "b06976b9-d999-461a-ab2a-9e9b4dfa3c80",
+      "name": "Send a text message7",
+      "webhookId": "1f40801e-05a2-4102-b1d2-73e23396a4ca",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://www.tgju.org/profile/geram18",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        608,
+        -192
+      ],
+      "id": "87872693-24ba-42b0-b480-c85fb4e22869",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "info.last_trade.PDrCotVal",
+              "cssSelector": "span[data-col=\"info.last_trade.PDrCotVal\"]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        896,
+        -144
+      ],
+      "id": "f6a9f390-e890-4170-8f26-74d408af1ccd",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=قیمت طلا در این لحظه : {{ $json['info.last_trade.PDrCotVal'] }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1168,
+        -96
+      ],
+      "id": "eb4628c9-15e0-4f6b-b58f-b472aeea8c6e",
+      "name": "Send a text message",
+      "webhookId": "de2fc464-3df1-43b4-984f-d8fe387e659e",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "extraction",
+        "operation": "query",
+        "sessionMode": "new",
+        "url": "https://bit24.cash/coins/",
+        "prompt": "قیمت تومانی تتر و  بیتکوین رو از این صفحه استخراج کن",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.airtop",
+      "typeVersion": 1,
+      "position": [
+        624,
+        -512
+      ],
+      "id": "5f82af01-dd2a-482c-af87-6bec3c4b27e0",
+      "name": "Query page1",
+      "credentials": {
+        "airtopApi": {
+          "id": "YX2npXA4RqJxZy67",
+          "name": "Airtop account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.data.modelResponse }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1056,
+        -560
+      ],
+      "id": "e8ac7e28-1a77-4875-a8bc-f34e4484216b",
+      "name": "Send a text message1",
+      "webhookId": "8eb43d25-8992-4373-870e-7414d2cf2d96",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer fc-03e8f6c1f02b47a5a8a67576aa9d9fb1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"url\": \"https://www.tgju.org/currency\",\n  \"formats\": [\n    \"html\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        624,
+        -352
+      ],
+      "id": "8ebc5439-2ff0-4718-a4f0-2892342c15f1",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "data.html",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "data-market-nameslug=\"price_dollar_rl\"",
+              "cssSelector": "tr[data-market-nameslug=\"price_dollar_rl\"] td.nf"
+            },
+            {
+              "key": "data-market-nameslug=\"price_eur\"",
+              "cssSelector": "tr[data-market-nameslug=\"price_eur\"] td.nf"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        896,
+        -352
+      ],
+      "id": "10352525-b280-45d5-b0a9-bdf0c6179937",
+      "name": "HTML3"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=قیمت دلار: {{ $json['data-market-nameslug=\"price_dollar_rl\"'] }}\nقیمت یورو: {{ $json['data-market-nameslug=\"price_eur\"'] }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        -368
+      ],
+      "id": "c8021e0f-bb1b-453e-9fe2-65187f9857f9",
+      "name": "Send a text message9",
+      "webhookId": "5d53fd93-82c5-4f26-a6c2-985268a14c6f",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c2ac9e64-39b6-487b-831a-8713d2578b11",
+              "leftValue": "={{ $json.isSetCommand }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "d781f75b-b610-4cbe-b43f-4ecbcc5d3c80",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        560
+      ],
+      "id": "5be12434-ef60-45f2-9a4e-9d46e645f95d",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const match = $json.message.text.trim().match(/^\\/set\\s*(\\d+)\\s*(ارز|رمزارز|طلا)\\s*$/);\n\nreturn [\n  { json: { isSetCommand: !!match } }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -496,
+        -64
+      ],
+      "id": "252aea68-2d0e-4008-955e-2dfa8a2d6c2e",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7623ff3b-8dda-45ff-82c8-fd770f8e31f2",
+              "leftValue": "={{ $json.isSetCommand }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -288,
+        -64
+      ],
+      "id": "b319ff16-af3e-421f-ae10-463cf24d6b69",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DGFYn9vQOatomZIq",
+          "mode": "list",
+          "cachedResultName": "users",
+          "cachedResultUrl": "/projects/UO2YWz7BMvumpj2z/datatables/DGFYn9vQOatomZIq"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chatId",
+              "keyValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "setNum": "={{ $('Telegram Trigger').item.json.message.text.match(/^\\/set\\s+(\\d+)\\s+(ارز|رمزارز|طلا)$/)?.[1]}}",
+            "setKind": "={{ $('Telegram Trigger').item.json.message.text.match(/^\\/set\\s+(\\d+)\\s+(ارز|رمزارز|طلا)$/)?.[2]}}",
+            "lastExe": "={{ Math.floor(Date.now() / 1000) }}\n",
+            "active": "={{ true }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "chatId",
+              "displayName": "chatId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "setNum",
+              "displayName": "setNum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "setKind",
+              "displayName": "setKind",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastExe",
+              "displayName": "lastExe",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "active",
+              "displayName": "active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        992,
+        432
+      ],
+      "id": "976c0973-d5e6-430a-994a-c8b0457c3f37",
+      "name": "Update row(s)",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "DGFYn9vQOatomZIq",
+          "mode": "list",
+          "cachedResultName": "users",
+          "cachedResultUrl": "/projects/UO2YWz7BMvumpj2z/datatables/DGFYn9vQOatomZIq"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+            "setNum": "={{ $('Telegram Trigger').item.json.message.text.match(/^\\/set\\s+(\\d+)\\s+(ارز|رمزارز|طلا)$/)?.[1]}}",
+            "setKind": "={{ $('Telegram Trigger').item.json.message.text.match(/^\\/set\\s+(\\d+)\\s+(ارز|رمزارز|طلا)$/)?.[2]}}",
+            "lastExe": "={{ Math.floor(Date.now() / 1000) }}\n"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "chatId",
+              "displayName": "chatId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "setNum",
+              "displayName": "setNum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "setKind",
+              "displayName": "setKind",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "lastExe",
+              "displayName": "lastExe",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "active",
+              "displayName": "active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        992,
+        624
+      ],
+      "id": "9a0e8dbd-7456-45e2-be75-2c7121a6f228",
+      "name": "Insert row",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "rowExists",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DGFYn9vQOatomZIq",
+          "mode": "list",
+          "cachedResultName": "users",
+          "cachedResultUrl": "/projects/UO2YWz7BMvumpj2z/datatables/DGFYn9vQOatomZIq"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chatId",
+              "keyValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        400,
+        560
+      ],
+      "id": "eb0e2cf1-7eee-448e-9313-24dfe3756a44",
+      "name": "If row exists",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds",
+              "secondsInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        1728,
+        544
+      ],
+      "id": "c9e9e954-6284-4e16-8f45-95e4ec5ad1e9",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DGFYn9vQOatomZIq",
+          "mode": "list",
+          "cachedResultName": "users",
+          "cachedResultUrl": "/projects/UO2YWz7BMvumpj2z/datatables/DGFYn9vQOatomZIq"
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        1936,
+        544
+      ],
+      "id": "b31ec4bf-5986-4d0d-99b0-43dd9d2341c8",
+      "name": "Get row(s)1",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a7b3dc93-4cf2-4e7c-8156-6d4a27881331",
+              "leftValue": "={{ Math.floor(Date.now() / 1000) - $json.lastExe }}",
+              "rightValue": "={{ $json.setNum }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "4b50b0cc-deaa-4525-9d13-8d548701d670",
+              "leftValue": "={{ $json.active }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2144,
+        544
+      ],
+      "id": "654d6b8e-184d-48c9-9713-ce38e48c383d",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DGFYn9vQOatomZIq",
+          "mode": "list",
+          "cachedResultName": "users",
+          "cachedResultUrl": "/projects/UO2YWz7BMvumpj2z/datatables/DGFYn9vQOatomZIq"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chatId",
+              "keyValue": "={{ $json.chatId }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "lastExe": "={{ Math.floor(Date.now() / 1000) }}\n"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "chatId",
+              "displayName": "chatId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "setNum",
+              "displayName": "setNum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "setKind",
+              "displayName": "setKind",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "lastExe",
+              "displayName": "lastExe",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "active",
+              "displayName": "active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        2352,
+        544
+      ],
+      "id": "cf869ed9-d055-44e3-9484-3738bb973479",
+      "name": "Update row(s)2",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "590fd5b7-658f-4292-8f5e-7d12c3c95289",
+                    "leftValue": "={{ $json.setKind }}",
+                    "rightValue": "رمزارز",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2e5e1c1b-11eb-48e5-bec5-f2ff0eed372c",
+                    "leftValue": "={{ $json.setKind }}",
+                    "rightValue": "ارز",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.setKind }}",
+                    "rightValue": "=طلا",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "c5ac8933-0a4b-49d7-b3bb-5a3cf5d57f64"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        2560,
+        544
+      ],
+      "id": "7326f454-8ca4-4925-a77b-bec553d53d69",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=ارسال خودکار فعال شد. قیمت {{ $json.setKind }} هر {{ $json.setNum }} ثانیه یکبار ارسال خواهد شد",
+        "additionalFields": {
+          "appendAttribution": false,
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1264,
+        544
+      ],
+      "id": "e00ac7f6-7f24-44fa-9f2b-e7a072715404",
+      "name": "Send a text message15",
+      "webhookId": "de2fc464-3df1-43b4-984f-d8fe387e659e",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "ارسال خودکار متوقف شد",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        816,
+        128
+      ],
+      "id": "adc60a20-d9e5-47f6-8bc3-34de412141dc",
+      "name": "Send a text message16",
+      "webhookId": "d8f2bc6d-a6ca-4a79-8020-007fafa6a787",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://www.tgju.org/profile/geram18",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2864,
+        784
+      ],
+      "id": "cd3d3204-32b3-4b6d-90b1-c14a27597dae",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "info.last_trade.PDrCotVal",
+              "cssSelector": "span[data-col=\"info.last_trade.PDrCotVal\"]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        3152,
+        832
+      ],
+      "id": "c1131739-acc5-4f9f-a3d3-0a1e639721a4",
+      "name": "HTML6"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('If2').item.json.chatId }}",
+        "text": "=قیمت طلا در این لحظه : {{ $json['info.last_trade.PDrCotVal'] }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3424,
+        880
+      ],
+      "id": "b0c3eae5-6c2c-4a03-a3ee-f9918a4f37eb",
+      "name": "Send a text message17",
+      "webhookId": "de2fc464-3df1-43b4-984f-d8fe387e659e",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "extraction",
+        "operation": "query",
+        "sessionMode": "new",
+        "url": "https://bit24.cash/coins/",
+        "prompt": "قیمت تومانی تتر و  بیتکوین رو از این صفحه استخراج کن",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.airtop",
+      "typeVersion": 1,
+      "position": [
+        2880,
+        464
+      ],
+      "id": "0aa0a891-e878-4bfe-85e8-f149c7c3bdbc",
+      "name": "Query page3",
+      "credentials": {
+        "airtopApi": {
+          "id": "YX2npXA4RqJxZy67",
+          "name": "Airtop account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.data.modelResponse }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3312,
+        416
+      ],
+      "id": "eebcef2a-8b02-4b4f-9287-c7756d9cf785",
+      "name": "Send a text message18",
+      "webhookId": "8eb43d25-8992-4373-870e-7414d2cf2d96",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer fc-03e8f6c1f02b47a5a8a67576aa9d9fb1"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"url\": \"https://www.tgju.org/currency\",\n  \"formats\": [\n    \"html\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2880,
+        624
+      ],
+      "id": "8b8c62bd-1eb0-4f99-b369-214f8c7b57e2",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "data.html",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "data-market-nameslug=\"price_dollar_rl\"",
+              "cssSelector": "tr[data-market-nameslug=\"price_dollar_rl\"] td.nf"
+            },
+            {
+              "key": "data-market-nameslug=\"price_eur\"",
+              "cssSelector": "tr[data-market-nameslug=\"price_eur\"] td.nf"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        3152,
+        624
+      ],
+      "id": "b7f86305-7634-4229-86c9-81af46e2e712",
+      "name": "HTML7"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=قیمت دلار: {{ $json['data-market-nameslug=\"price_dollar_rl\"'] }}\nقیمت یورو: {{ $json['data-market-nameslug=\"price_eur\"'] }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "reply_to_message_id": "={{ $('Telegram Trigger').item.json.message.message_id }}"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3488,
+        608
+      ],
+      "id": "db659e32-8011-49fa-94e5-7b7260529cd5",
+      "name": "Send a text message19",
+      "webhookId": "5d53fd93-82c5-4f26-a6c2-985268a14c6f",
+      "credentials": {
+        "telegramApi": {
+          "id": "KVKsElcWlhmislo3",
+          "name": "sir lala"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DGFYn9vQOatomZIq",
+          "mode": "list",
+          "cachedResultName": "users",
+          "cachedResultUrl": "/projects/UO2YWz7BMvumpj2z/datatables/DGFYn9vQOatomZIq"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chatId",
+              "keyValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "active": "={{ false }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "chatId",
+              "displayName": "chatId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "setNum",
+              "displayName": "setNum",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "setKind",
+              "displayName": "setKind",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "lastExe",
+              "displayName": "lastExe",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "active",
+              "displayName": "active",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        608,
+        128
+      ],
+      "id": "d94a0e58-337a-497a-9170-413d1ca4a828",
+      "name": "Update row(s)1",
+      "alwaysOutputData": false
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Query page1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update row(s)1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query page1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "HTML3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML3": {
+      "main": [
+        [
+          {
+            "node": "Send a text message9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If row exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If row exists": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)2": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Query page3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)": {
+      "main": [
+        [
+          {
+            "node": "Send a text message15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Send a text message15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "HTML6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML6": {
+      "main": [
+        [
+          {
+            "node": "Send a text message17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query page3": {
+      "main": [
+        [
+          {
+            "node": "Send a text message18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "HTML7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML7": {
+      "main": [
+        [
+          {
+            "node": "Send a text message19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "002583ca-4c54-4044-bcfb-b3996403eaa9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "952816202c9fd02b28d876a2a33999ef5618488bed2e1af6258bb25e26442f67"
+  },
+  "id": "dYg0fAP2GRWavOb3",
+  "tags": []
+}
