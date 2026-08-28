@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>n8n Automation Projects</title>
-<style>
-body{font-family:Arial,sans-serif;max-width:1000px;margin:40px auto;padding:20px;line-height:1.6}
-h1{text-align:center}
-.project{border:1px solid #ddd;border-radius:12px;padding:20px;margin:25px 0}
-code{background:#eee;padding:3px}
-</style>
-</head>
-<body>
-<h1>🚀 n8n Automation Projects Collection</h1>
 
+<h1>🚀 n8n Automation Projects Collection</h1>
 <p>
 A collection of automation workflows developed using n8n. 
 These projects demonstrate workflow automation, AI integration,
@@ -53,17 +40,6 @@ RAG architecture, vector databases, Telegram bots, and business process automati
 </div>
 
 <div class="project">
-<h2>4. RAG Assistant with Supabase Vector Store</h2>
-<p>A complete RAG pipeline using Supabase as vector storage.</p>
-<ul>
-<li>Document loading</li>
-<li>OpenAI embeddings</li>
-<li>Supabase vector database</li>
-<li>AI Agent response generation</li>
-</ul>
-</div>
-
-<div class="project">
 <h2>5. Telegram Web Information Bot</h2>
 <p>A bot that receives user requests, collects web information and returns automated responses.</p>
 <ul>
@@ -91,8 +67,6 @@ RAG architecture, vector databases, Telegram bots, and business process automati
 <li>AI Agents</li>
 <li>Google Gemini</li>
 <li>OpenAI</li>
-<li>RAG Architecture</li>
-<li>Vector Databases</li>
 <li>Telegram API</li>
 <li>Supabase</li>
 </ul>
